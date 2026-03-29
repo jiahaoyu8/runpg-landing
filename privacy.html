@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<!-- RunPG Privacy Policy -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — RunPG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #172038;
+      --card: #253A5E;
+      --gold: #DE9E41;
+      --parchment: #A4DDDB;
+      --text-secondary: #73BED3;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--parchment);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    .back {
+      display: inline-block;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .back:hover { opacity: 1; }
+
+    h1 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+    }
+
+    .updated {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.7rem;
+      color: var(--gold);
+      margin: 2.5rem 0 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    p { margin-bottom: 1rem; font-size: 0.95rem; }
+
+    ul {
+      margin: 0.5rem 0 1rem 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    ul li { margin-bottom: 0.5rem; }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .card {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.88rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      background: var(--card);
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid rgba(115, 190, 211, 0.1);
+      vertical-align: top;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="/">← Back to RunPG</a>
+
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: March 2026</p>
+
+    <p>RunPG ("we", "our", "the app") is a mobile fitness app that turns your runs into an RPG adventure. This policy explains what data we collect, why we collect it, and your rights.</p>
+
+    <p>By using RunPG you agree to this policy. If you do not agree, please uninstall the app and contact us to delete your data.</p>
+
+    <!-- ─── WHAT WE COLLECT ─── -->
+    <h2>What We Collect</h2>
+
+    <table>
+      <tr>
+        <th>Category</th>
+        <th>Data</th>
+        <th>Why</th>
+      </tr>
+      <tr>
+        <td><strong>Account</strong></td>
+        <td>Name, email address, profile photo (from Google or Apple Sign-In); display name and username you choose in-app</td>
+        <td>Create and identify your account</td>
+      </tr>
+      <tr>
+        <td><strong>Location</strong></td>
+        <td>Precise GPS coordinates, collected continuously during an active run (including when the screen is off)</td>
+        <td>Track distance, pace, and route for your run</td>
+      </tr>
+      <tr>
+        <td><strong>Fitness & Activity</strong></td>
+        <td>Run distance, duration, pace, XP earned, level, streak, weekly stats, personal records</td>
+        <td>Power the RPG progression system and your run journal</td>
+      </tr>
+      <tr>
+        <td><strong>Social</strong></td>
+        <td>Friend connections, reactions to runs, challenge history, leaderboard data</td>
+        <td>Enable friends features and weekly challenges</td>
+      </tr>
+      <tr>
+        <td><strong>Strava (optional)</strong></td>
+        <td>Strava access token (stored securely), activity IDs of synced runs</td>
+        <td>Sync completed runs to your Strava account if you connect it</td>
+      </tr>
+      <tr>
+        <td><strong>Usage & Diagnostics</strong></td>
+        <td>Screen views, feature interactions (PostHog), crash reports and device info (Firebase Crashlytics)</td>
+        <td>Improve the app and fix bugs</td>
+      </tr>
+      <tr>
+        <td><strong>Push Notifications</strong></td>
+        <td>Device push token (FCM)</td>
+        <td>Send challenge and social notifications (only if you grant permission)</td>
+      </tr>
+    </table>
+
+    <p><strong>We do not collect:</strong> payment information, contacts, photos, microphone, or camera data.</p>
+
+    <!-- ─── LOCATION ─── -->
+    <h2>Location Data</h2>
+
+    <p>Location is the most sensitive data we use. Here is exactly how it works:</p>
+    <ul>
+      <li>GPS is only active when you explicitly start a run inside the app.</li>
+      <li>When you tap "End Run", GPS collection stops immediately.</li>
+      <li>"Always On" permission is required so tracking continues if you lock your screen mid-run.</li>
+      <li>We do not track your location in the background at any other time.</li>
+      <li>Run routes are stored in your account in Firebase Firestore.</li>
+      <li>Your friends can see your run stats (distance, pace) but not your GPS route.</li>
+    </ul>
+
+    <!-- ─── HOW WE USE IT ─── -->
+    <h2>How We Use Your Data</h2>
+    <ul>
+      <li>Operate the app — tracking runs, awarding XP, saving your journal</li>
+      <li>Social features — friends list, leaderboard, reactions, challenges</li>
+      <li>Personalisation — quests tailored to your goals and running history</li>
+      <li>Strava sync — only if you connect Strava; you can disconnect at any time</li>
+      <li>Analytics — understand how features are used (PostHog) to improve the product</li>
+      <li>Crash reporting — identify and fix bugs (Firebase Crashlytics)</li>
+      <li>Push notifications — challenge invitations and social updates (only with your permission)</li>
+    </ul>
+
+    <p>We do not sell your data. We do not use your data for advertising.</p>
+
+    <!-- ─── THIRD PARTIES ─── -->
+    <h2>Third-Party Services</h2>
+
+    <p>RunPG uses the following third-party processors. Each has its own privacy policy:</p>
+
+    <div class="card">
+      <ul style="list-style:none; margin:0; padding:0;">
+        <li style="margin-bottom:0.75rem"><strong>Google Firebase</strong> (Firestore, Auth, Crashlytics, Cloud Messaging) — <a href="https://firebase.google.com/support/privacy" target="_blank">firebase.google.com/support/privacy</a></li>
+        <li style="margin-bottom:0.75rem"><strong>Google Sign-In</strong> — <a href="https://policies.google.com/privacy" target="_blank">policies.google.com/privacy</a></li>
+        <li style="margin-bottom:0.75rem"><strong>Apple Sign-In</strong> — <a href="https://www.apple.com/legal/privacy/" target="_blank">apple.com/legal/privacy</a></li>
+        <li style="margin-bottom:0.75rem"><strong>Strava</strong> (optional) — <a href="https://www.strava.com/legal/privacy" target="_blank">strava.com/legal/privacy</a></li>
+        <li><strong>PostHog</strong> (analytics) — <a href="https://posthog.com/privacy" target="_blank">posthog.com/privacy</a></li>
+      </ul>
+    </div>
+
+    <!-- ─── DATA RETENTION ─── -->
+    <h2>Data Retention</h2>
+    <p>Your data is retained for as long as your account is active. If you delete your account, we will delete your profile, run history, and social data from our servers within 30 days.</p>
+
+    <!-- ─── YOUR RIGHTS ─── -->
+    <h2>Your Rights</h2>
+    <p>You have the right to:</p>
+    <ul>
+      <li><strong>Access</strong> — request a copy of the data we hold about you</li>
+      <li><strong>Correction</strong> — update your display name or username in-app at any time</li>
+      <li><strong>Deletion</strong> — request full account and data deletion</li>
+      <li><strong>Portability</strong> — request an export of your run history</li>
+      <li><strong>Withdraw consent</strong> — disconnect Strava, disable notifications, or delete your account at any time</li>
+    </ul>
+    <p>To exercise any of these rights, email us at <a href="mailto:support@runpg.fit">support@runpg.fit</a>.</p>
+
+    <!-- ─── CHILDREN ─── -->
+    <h2>Children</h2>
+    <p>RunPG is not directed at children under 13. We do not knowingly collect personal information from anyone under 13. If you believe a child has provided us data, please contact us and we will delete it promptly.</p>
+
+    <!-- ─── SECURITY ─── -->
+    <h2>Security</h2>
+    <p>All data is stored in Google Firebase with security rules that restrict access to the authenticated account owner. Strava tokens are stored in a private Firestore subcollection not accessible to other users. We use HTTPS for all data in transit.</p>
+
+    <!-- ─── CHANGES ─── -->
+    <h2>Changes to This Policy</h2>
+    <p>We may update this policy as the app evolves. If we make material changes, we will notify you through the app. Continued use after changes take effect constitutes acceptance.</p>
+
+    <!-- ─── CONTACT ─── -->
+    <h2>Contact</h2>
+    <p>Questions about this policy? Email us at <a href="mailto:support@runpg.fit">support@runpg.fit</a>.</p>
+  </div>
+</body>
+</html>

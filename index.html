@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RunPG — Turn Every Run Into a Quest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #172038;
+      --card: #253A5E;
+      --gold: #DE9E41;
+      --parchment: #A4DDDB;
+      --text-secondary: #73BED3;
+      --on-accent: #10141F;
+      --purple: #1E1D39;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--parchment);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .page {
+      height: 100vh;
+      height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(2rem, 6vw, 6rem);
+      padding: 2rem;
+      position: relative;
+    }
+
+    /* Pixel grid overlay */
+    .page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(115, 190, 211, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(115, 190, 211, 0.03) 1px, transparent 1px);
+      background-size: 16px 16px;
+      pointer-events: none;
+    }
+
+    /* ── Left: Text Content ─────────────────── */
+    .content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      z-index: 1;
+      max-width: 420px;
+    }
+
+    .logo {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--gold);
+      letter-spacing: 4px;
+      margin-bottom: 0.75rem;
+      text-shadow: 3px 3px 0 var(--purple);
+    }
+
+    .tagline {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(0.5rem, 1.4vw, 0.7rem);
+      color: var(--text-secondary);
+      margin-bottom: 2.5rem;
+      line-height: 1.8;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 0.6em;
+      height: 1em;
+      background: var(--text-secondary);
+      margin-left: 4px;
+      animation: blink 1s step-end infinite;
+      vertical-align: middle;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ── Feature Tabs ── */
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 2.5rem;
+      width: 100%;
+    }
+
+    .feature-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(0.45rem, 1.1vw, 0.6rem);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      background: rgba(37, 58, 94, 0.2);
+      border: 1.5px solid rgba(115, 190, 211, 0.15);
+      padding: 0.65rem 0.9rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: left;
+      width: 100%;
+    }
+
+    .feature-btn:hover {
+      color: var(--parchment);
+      background: rgba(37, 58, 94, 0.45);
+      border-color: rgba(115, 190, 211, 0.3);
+    }
+
+    .feature-btn.active {
+      color: var(--gold);
+      border-color: var(--gold);
+      background: rgba(222, 158, 65, 0.08);
+    }
+
+    .feature-btn .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--text-secondary);
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+
+    .feature-btn.active .dot {
+      background: var(--gold);
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(0.5rem, 1.2vw, 0.65rem);
+      padding: 0.9rem 1.6rem;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .cta:active {
+      transform: translateY(2px);
+      box-shadow: none !important;
+    }
+
+    .cta-primary {
+      background: var(--gold);
+      color: var(--on-accent);
+      box-shadow: 4px 4px 0 var(--purple);
+    }
+
+    .cta-primary:hover { background: #e8ad52; }
+
+    .cta-secondary {
+      background: var(--card);
+      color: var(--parchment);
+      box-shadow: 4px 4px 0 var(--purple);
+    }
+
+    .cta-secondary:hover { background: #2d4570; }
+
+    /* ── Right: iPhone Mockup ───────────────── */
+    .phone-wrapper {
+      z-index: 1;
+      flex-shrink: 0;
+    }
+
+    .iphone {
+      width: 325px;
+      height: 663px;
+      background: #1b1b1b;
+      border-radius: 54px;
+      padding: 10px;
+      position: relative;
+      /* Thin titanium frame highlight + realistic shadow */
+      border: 1.5px solid #444;
+      box-shadow:
+        /* Outer bright edge (titanium catch-light) */
+        0 0 0 1px rgba(255,255,255,0.08),
+        /* Elevation shadows */
+        0 4px 12px rgba(0,0,0,0.4),
+        0 12px 40px rgba(0,0,0,0.35),
+        0 24px 80px rgba(0,0,0,0.25);
+    }
+
+    /* Side button (power — right) */
+    .iphone::after {
+      content: '';
+      position: absolute;
+      right: -2.5px;
+      top: 160px;
+      width: 3px;
+      height: 56px;
+      background: #3a3a3a;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* Dynamic Island */
+    .iphone::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 95px;
+      height: 26px;
+      background: #000;
+      border-radius: 20px;
+      z-index: 10;
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      border-radius: 46px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Volume buttons (left side) */
+    .vol-btn {
+      position: absolute;
+      left: -2.5px;
+      width: 3px;
+      background: #3a3a3a;
+      border-radius: 2px 0 0 2px;
+    }
+    .vol-up { top: 130px; height: 36px; }
+    .vol-down { top: 176px; height: 36px; }
+
+    /* ── Screens (swap via JS) ── */
+    .app-screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 18px 18px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+
+    .app-screen.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ── Shared phone UI styles ── */
+    .app-bar {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .app-bar-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 11px;
+      color: var(--parchment);
+    }
+
+    .sprite-area {
+      width: 88px;
+      height: 88px;
+      margin-bottom: 10px;
+      image-rendering: pixelated;
+      background-image: url(assets/sprites/warrior_idle_sheet.png);
+      background-size: 1100% 1100%;
+      background-position: 0 0;
+    }
+
+    .dash-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px;
+      color: var(--parchment);
+      margin-bottom: 5px;
+    }
+
+    .dash-level {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 22px;
+      color: var(--gold);
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .dash-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--parchment);
+      margin-bottom: 8px;
+    }
+
+    .xp-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--text-secondary);
+      align-self: flex-start;
+      margin-left: 12px;
+      margin-bottom: 4px;
+    }
+
+    .xp-bar-outer {
+      width: calc(100% - 24px);
+      height: 11px;
+      background: var(--purple);
+      margin-bottom: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .xp-bar-fill {
+      height: 100%;
+      width: 65%;
+      background: var(--gold);
+      transition: width 0.6s ease;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 7px;
+      width: calc(100% - 24px);
+      margin-bottom: 10px;
+    }
+
+    .mini-stat {
+      flex: 1;
+      background: var(--card);
+      padding: 8px 4px;
+      text-align: center;
+    }
+
+    .mini-stat-value {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 11px;
+      color: var(--parchment);
+      margin-bottom: 4px;
+    }
+
+    .mini-stat-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px;
+      color: var(--text-secondary);
+    }
+
+    /* Pixel notched-corner clip (matches PixelGemButton/PixelFlatContainer) */
+    .notch {
+      clip-path: polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px);
+    }
+
+    .notch-border {
+      position: relative;
+    }
+
+    .notch-border::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: #1A1A2E;
+      clip-path: polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px);
+      z-index: -1;
+    }
+
+    /* Streak card (matches dashboard) */
+    .streak-row {
+      width: calc(100% - 24px);
+      background: var(--card);
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .streak-icon {
+      font-size: 11px;
+      margin-right: 5px;
+    }
+
+    .dash-btn {
+      width: calc(100% - 24px);
+      padding: 10px 0;
+      text-align: center;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      margin-bottom: 7px;
+    }
+
+    .dash-btn-primary {
+      background: var(--gold);
+      color: var(--on-accent);
+      box-shadow: 0 3px 0 #884B2B;
+    }
+
+    .dash-btn-secondary {
+      background: var(--card);
+      color: var(--gold);
+    }
+
+    /* ── Quest screen elements ── */
+    .section-label {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--text-secondary);
+      align-self: flex-start;
+      margin-left: 12px;
+      margin-bottom: 6px;
+      margin-top: 4px;
+    }
+
+    .quest-card {
+      width: calc(100% - 24px);
+      background: var(--card);
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .quest-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--parchment);
+      margin-bottom: 5px;
+    }
+
+    .quest-desc {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+
+    .quest-bar-outer {
+      width: 100%;
+      height: 8px;
+      background: var(--purple);
+      margin-bottom: 4px;
+    }
+
+    .quest-bar-fill {
+      height: 100%;
+      background: var(--gold);
+    }
+
+    .quest-progress-text {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px;
+      color: var(--text-secondary);
+      text-align: right;
+    }
+
+    .quest-xp {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px;
+      color: var(--gold);
+      margin-top: 2px;
+    }
+
+    .xp-badge {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px;
+      color: var(--gold);
+      background: rgba(222,158,65,0.15);
+      padding: 3px 5px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .quest-checkbox {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--purple);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── Social screen elements ── */
+    .tab-bar {
+      width: calc(100% - 24px);
+      display: flex;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--purple);
+    }
+
+    .tab-item {
+      flex: 1;
+      text-align: center;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px;
+      padding: 7px 0 5px;
+      color: var(--text-secondary);
+    }
+
+    .tab-item.tab-active {
+      color: var(--gold);
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .leaderboard-row {
+      width: calc(100% - 24px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      background: var(--card);
+      margin-bottom: 5px;
+    }
+
+    .leaderboard-row.self-row {
+      border-left: 2px solid var(--gold);
+    }
+
+    .lb-rank {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: var(--gold);
+      width: 18px;
+      text-align: center;
+    }
+
+    .lb-avatar {
+      width: 24px;
+      height: 24px;
+      background: var(--purple);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .lb-info { flex: 1; }
+
+    .lb-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--parchment);
+      margin-bottom: 3px;
+    }
+
+    .lb-level {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 5px;
+      color: var(--text-secondary);
+    }
+
+    .lb-km {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: var(--parchment);
+      text-align: right;
+    }
+
+    .lb-km-unit {
+      font-size: 5px;
+      color: var(--text-secondary);
+    }
+
+    .challenge-card {
+      width: calc(100% - 24px);
+      background: var(--card);
+      padding: 10px 12px;
+      margin-bottom: 6px;
+    }
+
+    .challenge-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      color: var(--gold);
+      margin-bottom: 5px;
+    }
+
+    .challenge-vs {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px;
+      color: var(--parchment);
+      margin-bottom: 5px;
+    }
+
+    .challenge-timer {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 5px;
+      color: var(--text-secondary);
+    }
+
+    /* ── Loot screen elements ── */
+    .equipped-item {
+      width: calc(100% - 24px);
+      background: var(--card);
+      padding: 8px 10px;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .loot-icon {
+      width: 36px;
+      height: 36px;
+      image-rendering: pixelated;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .loot-name {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px;
+      color: var(--text-secondary);
+    }
+
+    .loot-rarity {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 5px;
+      margin-top: 3px;
+    }
+
+    .equip-btn {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 5px;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 4px 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .equipped-btn {
+      background: var(--gold);
+      color: var(--on-accent);
+    }
+
+    .rarity-common { color: #EBEDE9; }
+    .rarity-uncommon { color: #75A743; }
+    .rarity-rare { color: var(--gold); }
+    .rarity-epic { color: #A23E8C; }
+
+    /* ── Floating particles ─────────────────── */
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--gold);
+      opacity: 0;
+      animation: float 6s infinite;
+    }
+
+    @keyframes float {
+      0%   { opacity: 0; transform: translateY(0); }
+      20%  { opacity: 0.3; }
+      80%  { opacity: 0.08; }
+      100% { opacity: 0; transform: translateY(-120px); }
+    }
+
+    .particle:nth-child(1) { left: 8%; bottom: 10%; animation-delay: 0s; }
+    .particle:nth-child(2) { left: 20%; bottom: 20%; animation-delay: 1.2s; }
+    .particle:nth-child(3) { left: 45%; bottom: 5%; animation-delay: 2.5s; }
+    .particle:nth-child(4) { right: 15%; bottom: 15%; animation-delay: 0.8s; }
+    .particle:nth-child(5) { right: 8%; bottom: 8%; animation-delay: 3.5s; }
+
+    .footer {
+      position: absolute;
+      bottom: 1.5rem;
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      opacity: 0.4;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      html, body {
+        overflow: auto;
+      }
+
+      .page {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        min-height: 100dvh;
+        gap: 2rem;
+        padding: 2rem 1.5rem 3rem;
+      }
+
+      .content {
+        align-items: center;
+        text-align: center;
+      }
+
+      .tagline { margin-bottom: 1.5rem; }
+
+      .features {
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .feature-btn {
+        justify-content: center;
+        width: 100%;
+        max-width: 320px;
+      }
+
+      .cta-group { justify-content: center; }
+
+      .phone-wrapper { order: 1; }
+
+      .iphone {
+        width: 280px;
+        height: 572px;
+        border-radius: 48px;
+        padding: 9px;
+      }
+
+      .iphone::before {
+        width: 80px;
+        height: 24px;
+        top: 13px;
+      }
+
+      .screen { border-radius: 40px; }
+
+      .app-screen { padding: 46px 16px 16px; }
+
+      .sprite-area { width: 72px; height: 72px; }
+      .dash-level { font-size: 18px; }
+      .dash-name { font-size: 8px; }
+      .dash-title { font-size: 7px; }
+      .app-bar-title { font-size: 9px; }
+      .mini-stat-value { font-size: 9px; }
+      .mini-stat-label { font-size: 5px; }
+      .dash-btn { font-size: 7px; padding: 8px 0; margin-bottom: 5px; }
+      .xp-label { font-size: 6px; }
+      .section-label { font-size: 6px; }
+      .quest-title { font-size: 7px; }
+      .quest-desc { font-size: 5px; }
+      .quest-progress-text { font-size: 5px; }
+      .xp-badge { font-size: 5px; }
+      .tab-item { font-size: 5px; }
+      .lb-name { font-size: 6px; }
+      .lb-level { font-size: 4px; }
+      .lb-rank { font-size: 8px; }
+      .lb-km { font-size: 7px; }
+      .loot-icon { width: 30px; height: 30px; }
+      .loot-name { font-size: 5px; }
+      .loot-rarity { font-size: 4px; }
+      .equip-btn { font-size: 4px; }
+      .challenge-title { font-size: 6px; }
+      .challenge-vs { font-size: 5px; }
+      .challenge-timer { font-size: 4px; }
+
+      .footer { position: static; margin-top: 1rem; order: 2; }
+    }
+
+    @media (max-height: 650px) and (min-width: 769px) {
+      .iphone { height: 500px; }
+      .sprite-area { width: 60px; height: 60px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+    <!-- Left: Text -->
+    <div class="content">
+      <h1 class="logo">RunPG</h1>
+      <p class="tagline">Turn every run into a quest<span class="cursor"></span></p>
+
+      <div class="features">
+        <button class="feature-btn active" data-screen="dashboard">
+          <span class="dot"></span> Run & level up
+        </button>
+        <button class="feature-btn" data-screen="quests">
+          <span class="dot"></span> Complete quests
+        </button>
+        <button class="feature-btn" data-screen="loot">
+          <span class="dot"></span> Get loot
+        </button>
+        <button class="feature-btn" data-screen="social">
+          <span class="dot"></span> Challenge your friends
+        </button>
+      </div>
+
+      <div class="cta-group">
+        <a class="cta cta-primary" href="https://apps.apple.com/app/runpg/id6760380635" target="_blank" rel="noopener">Download on iOS</a>
+      </div>
+    </div>
+
+    <!-- Right: iPhone Mockup -->
+    <div class="phone-wrapper">
+      <div class="iphone">
+        <!-- Volume buttons (left side) -->
+        <div class="vol-btn vol-up"></div>
+        <div class="vol-btn vol-down"></div>
+        <div class="screen">
+
+          <!-- ═══ Screen 1: Dashboard ═══ -->
+          <div class="app-screen visible" id="screen-dashboard">
+            <div class="app-bar"><span class="app-bar-title">RunPG</span></div>
+
+            <!-- Actual warrior sprite (frame 0 from sprite sheet) -->
+            <div class="sprite-area"></div>
+
+            <div class="dash-name">Jonson</div>
+            <div class="dash-level">Level 7</div>
+            <div class="dash-title">Hill Climber</div>
+
+            <span class="xp-label">XP: 1,230 / 3,500</span>
+            <div class="xp-bar-outer notch">
+              <div class="xp-bar-fill" style="width:35%"></div>
+            </div>
+
+            <!-- Streak card (matches app's PixelFlatContainer) -->
+            <div class="streak-row notch notch-border">
+              <div style="display:flex;align-items:center;">
+                <span class="streak-icon" style="color:var(--gold);">&#9876;</span>
+                <span class="section-label" style="margin:0;font-size:6px;">CURRENT STREAK</span>
+              </div>
+              <span style="font-family:'Press Start 2P',monospace;font-size:8px;color:var(--gold);">4 weeks</span>
+            </div>
+
+            <div class="stats-row">
+              <div class="mini-stat notch notch-border">
+                <div class="mini-stat-value">42</div>
+                <div class="mini-stat-label">Runs</div>
+              </div>
+              <div class="mini-stat notch notch-border">
+                <div class="mini-stat-value">187</div>
+                <div class="mini-stat-label">km</div>
+              </div>
+              <div class="mini-stat notch notch-border">
+                <div class="mini-stat-value">8.4k</div>
+                <div class="mini-stat-label">XP</div>
+              </div>
+            </div>
+
+            <div class="dash-btn dash-btn-primary notch">START RUN</div>
+            <div class="dash-btn dash-btn-secondary notch">QUESTS</div>
+            <div class="dash-btn dash-btn-secondary notch">SOCIAL</div>
+            <div class="dash-btn dash-btn-secondary notch">INVENTORY</div>
+          </div>
+
+          <!-- ═══ Screen 2: Quests ═══ -->
+          <div class="app-screen" id="screen-quests">
+            <div class="app-bar"><span class="app-bar-title">Quests</span></div>
+
+            <div class="section-label">WEEKLY GOAL</div>
+            <div class="quest-card notch notch-border">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+                <div class="quest-progress-text" style="color:var(--parchment);">7.2 / 10.0 km</div>
+                <div class="quest-xp" style="margin:0;">+500 XP bonus</div>
+              </div>
+              <div class="quest-bar-outer" style="margin-bottom:0;">
+                <div class="quest-bar-fill" style="width:72%"></div>
+              </div>
+            </div>
+
+            <div class="section-label">WEEKLY QUEST</div>
+            <div class="quest-card notch notch-border">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                <div class="quest-title" style="margin:0;">Endurance March</div>
+                <div class="xp-badge">+250 XP</div>
+              </div>
+              <div class="quest-desc">Run a total of 15 km this week</div>
+              <div class="quest-bar-outer" style="margin-bottom:3px;">
+                <div class="quest-bar-fill" style="width:48%"></div>
+              </div>
+              <div class="quest-progress-text">7.2 / 15.0 km</div>
+            </div>
+
+            <div class="section-label">LONG-TERM QUESTS</div>
+            <div class="quest-card notch notch-border">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="quest-checkbox"></div>
+                <div style="flex:1;">
+                  <div class="quest-title" style="margin:0;">Century Runner</div>
+                  <div class="quest-desc" style="margin-bottom:2px;">Reach 100 total runs</div>
+                  <div class="quest-progress-text" style="text-align:left;">42 / 100</div>
+                </div>
+                <div class="xp-badge">+500 XP</div>
+              </div>
+            </div>
+
+            <div class="quest-card notch notch-border">
+              <div style="display:flex;align-items:center;gap:6px;">
+                <div class="quest-checkbox"></div>
+                <div style="flex:1;">
+                  <div class="quest-title" style="margin:0;">Marathon Legend</div>
+                  <div class="quest-desc" style="margin-bottom:2px;">Run 500 km total</div>
+                  <div class="quest-progress-text" style="text-align:left;">187 / 500 km</div>
+                </div>
+                <div class="xp-badge">+1k XP</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ═══ Screen 3: Loot ═══ -->
+          <div class="app-screen" id="screen-loot">
+            <div class="app-bar"><span class="app-bar-title">Inventory</span></div>
+
+            <div class="equipped-item notch notch-border">
+              <img src="assets/icons/equipment/flame-walkers.png" class="loot-icon" alt="Flame Walkers">
+              <div style="flex:1;">
+                <div class="loot-name" style="color:#A23E8C;text-align:left;">Flame Walkers</div>
+                <div class="loot-rarity rarity-epic">Epic +12% XP</div>
+              </div>
+              <div class="equip-btn equipped-btn">EQUIPPED</div>
+            </div>
+
+            <div class="section-label" style="margin-top:8px;">ALL GEAR</div>
+            <div class="equipped-item notch notch-border">
+              <img src="assets/icons/equipment/wind-boots.png" class="loot-icon" alt="Wind Boots">
+              <div style="flex:1;">
+                <div class="loot-name" style="color:var(--gold);text-align:left;">Wind Boots</div>
+                <div class="loot-rarity rarity-rare">Rare +8% XP</div>
+              </div>
+              <div class="equip-btn">EQUIP</div>
+            </div>
+            <div class="equipped-item notch notch-border">
+              <img src="assets/icons/equipment/iron-greaves.png" class="loot-icon" alt="Iron Greaves">
+              <div style="flex:1;">
+                <div class="loot-name" style="color:#75A743;text-align:left;">Iron Greaves</div>
+                <div class="loot-rarity rarity-uncommon">Uncommon +5%</div>
+              </div>
+              <div class="equip-btn">EQUIP</div>
+            </div>
+            <div class="equipped-item notch notch-border">
+              <img src="assets/icons/equipment/trail-runners.png" class="loot-icon" alt="Trail Runners">
+              <div style="flex:1;">
+                <div class="loot-name" style="color:#75A743;text-align:left;">Trail Runners</div>
+                <div class="loot-rarity rarity-uncommon">Uncommon +5%</div>
+              </div>
+              <div class="equip-btn">EQUIP</div>
+            </div>
+            <div class="equipped-item notch notch-border">
+              <img src="assets/icons/equipment/leather-boots.png" class="loot-icon" alt="Leather Boots">
+              <div style="flex:1;">
+                <div class="loot-name" style="text-align:left;">Leather Boots</div>
+                <div class="loot-rarity rarity-common">Common +3%</div>
+              </div>
+              <div class="equip-btn">EQUIP</div>
+            </div>
+          </div>
+
+          <!-- ═══ Screen 4: Social ═══ -->
+          <div class="app-screen" id="screen-social">
+            <div class="app-bar"><span class="app-bar-title">Social</span></div>
+
+            <div class="tab-bar">
+              <div class="tab-item tab-active">ACTIVITY</div>
+              <div class="tab-item">CHALLENGES</div>
+              <div class="tab-item">FRIENDS</div>
+            </div>
+
+            <div class="section-label">WEEKLY LEADERBOARD</div>
+
+            <div class="leaderboard-row self-row notch">
+              <div class="lb-rank">1</div>
+              <div class="lb-avatar" style="background-image:url(assets/sprites/warrior_idle_sheet.png);background-size:1100% 1100%;background-position:0 0;image-rendering:pixelated;"></div>
+              <div class="lb-info">
+                <div class="lb-name">You</div>
+                <div class="lb-level">Lv.7 Hill Climber</div>
+              </div>
+              <div class="lb-km">7.2 <span class="lb-km-unit">km</span></div>
+            </div>
+
+            <div class="leaderboard-row notch">
+              <div class="lb-rank">2</div>
+              <div class="lb-avatar" style="background:#3a2d5e;"></div>
+              <div class="lb-info">
+                <div class="lb-name">David</div>
+                <div class="lb-level">Lv.5 Road Warrior</div>
+              </div>
+              <div class="lb-km">6.1 <span class="lb-km-unit">km</span></div>
+            </div>
+
+            <div class="leaderboard-row notch">
+              <div class="lb-rank">3</div>
+              <div class="lb-avatar" style="background:#2d4a3e;"></div>
+              <div class="lb-info">
+                <div class="lb-name">Adam</div>
+                <div class="lb-level">Lv.9 Endurance Adept</div>
+              </div>
+              <div class="lb-km">5.8 <span class="lb-km-unit">km</span></div>
+            </div>
+
+            <div class="leaderboard-row notch">
+              <div class="lb-rank">4</div>
+              <div class="lb-avatar" style="background:#4a2d3e;"></div>
+              <div class="lb-info">
+                <div class="lb-name">Henry</div>
+                <div class="lb-level">Lv.3 Iron Legs</div>
+              </div>
+              <div class="lb-km">3.4 <span class="lb-km-unit">km</span></div>
+            </div>
+
+            <div style="height:6px"></div>
+
+            <div class="challenge-card notch notch-border">
+              <div class="challenge-title">Distance Challenge</div>
+              <div class="challenge-vs">You vs David</div>
+              <div class="quest-bar-outer" style="margin:4px 0;">
+                <div class="quest-bar-fill" style="width:60%"></div>
+              </div>
+              <div class="challenge-timer">2 days remaining</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">RunPG &copy; 2026 &nbsp;&middot;&nbsp; <a href="privacy.html" style="color:inherit;opacity:0.7;text-decoration:none;">Privacy Policy</a> &nbsp;&middot;&nbsp; <a href="terms.html" style="color:inherit;opacity:0.7;text-decoration:none;">Terms of Service</a> &nbsp;&middot;&nbsp; <a href="delete-account.html" style="color:inherit;opacity:0.7;text-decoration:none;">Delete Account</a> &nbsp;&middot;&nbsp; <a href="mailto:support@runpg.fit" style="color:inherit;opacity:0.7;text-decoration:none;">support@runpg.fit</a></div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.feature-btn');
+    const screens = document.querySelectorAll('.app-screen');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.screen;
+
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        screens.forEach(s => s.classList.remove('visible'));
+        document.getElementById('screen-' + target).classList.add('visible');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Account — RunPG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #172038;
+      --card: #253A5E;
+      --gold: #DE9E41;
+      --parchment: #A4DDDB;
+      --text-secondary: #73BED3;
+      --red: #E84855;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--parchment);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    .back {
+      display: inline-block;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .back:hover { opacity: 1; }
+
+    h1 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+    }
+
+    .updated {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.7rem;
+      color: var(--gold);
+      margin: 2.5rem 0 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    p { margin-bottom: 1rem; font-size: 0.95rem; }
+
+    ul {
+      margin: 0.5rem 0 1rem 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    ul li { margin-bottom: 0.5rem; }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .card {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      font-size: 0.95rem;
+    }
+
+    .warning {
+      border-left: 3px solid var(--red);
+      padding-left: 1rem;
+      margin: 1.5rem 0;
+      color: var(--parchment);
+      font-size: 0.95rem;
+    }
+
+    .steps {
+      counter-reset: step;
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+
+    .steps li {
+      counter-increment: step;
+      padding-left: 2rem;
+      position: relative;
+      margin-bottom: 0.75rem;
+    }
+
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      width: 1.4rem;
+      height: 1.4rem;
+      background: var(--card);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 1.4rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gold);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="/">← Back to RunPG</a>
+
+    <h1>Delete Your Account</h1>
+    <p class="updated">Last updated: March 2026</p>
+
+    <p>We're sorry to see you go. This page explains how to delete your RunPG account and what happens to your data.</p>
+
+    <!-- ─── IN-APP ─── -->
+    <h2>Delete from the App</h2>
+
+    <p>The fastest way to delete your account:</p>
+
+    <ol class="steps">
+      <li>Open RunPG and go to your <strong>Hero Dashboard</strong></li>
+      <li>Tap the <strong>Settings</strong> icon (top-right)</li>
+      <li>Scroll to the bottom and tap <strong>Delete Account</strong></li>
+      <li>Confirm by tapping <strong>Delete Forever</strong></li>
+    </ol>
+
+    <p>Your account and all data will be deleted immediately.</p>
+
+    <!-- ─── EMAIL REQUEST ─── -->
+    <h2>Delete via Email</h2>
+
+    <p>If you can't access the app, you can request account deletion by email:</p>
+
+    <div class="card">
+      <p style="margin-bottom:0.5rem"><strong>Send an email to:</strong> <a href="mailto:support@runpg.fit">support@runpg.fit</a></p>
+      <p style="margin-bottom:0.5rem"><strong>Subject:</strong> Account Deletion Request</p>
+      <p style="margin-bottom:0"><strong>Include:</strong> The email address associated with your RunPG account (the one you used to sign in with Google or Apple).</p>
+    </div>
+
+    <p>We will verify your identity and process the deletion within <strong>30 days</strong>.</p>
+
+    <!-- ─── WHAT GETS DELETED ─── -->
+    <h2>What Gets Deleted</h2>
+
+    <p>When your account is deleted, we permanently remove:</p>
+
+    <ul>
+      <li>Your hero profile (name, username, level, XP, titles)</li>
+      <li>All run history (distance, pace, routes, timestamps)</li>
+      <li>Quest progress and completion records</li>
+      <li>Friends list, reactions, and challenge history</li>
+      <li>Inventory and equipment</li>
+      <li>Strava connection tokens (your Strava account itself is not affected)</li>
+      <li>Your Firebase authentication record</li>
+    </ul>
+
+    <div class="warning">
+      <p><strong>This action is permanent and cannot be undone.</strong> There is no way to recover your hero, XP, run history, or progress after deletion.</p>
+    </div>
+
+    <!-- ─── WHAT IS NOT DELETED ─── -->
+    <h2>What Is Not Affected</h2>
+
+    <ul>
+      <li><strong>Your Strava account</strong> — RunPG only disconnects. Your Strava activities remain on Strava.</li>
+      <li><strong>Your Google/Apple account</strong> — only the RunPG connection is removed.</li>
+      <li><strong>Anonymised analytics</strong> — aggregated, non-identifiable usage data may be retained for product improvement.</li>
+    </ul>
+
+    <!-- ─── CONTACT ─── -->
+    <h2>Questions?</h2>
+
+    <p>If you have questions about data deletion, contact us at <a href="mailto:support@runpg.fit">support@runpg.fit</a>.</p>
+
+    <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--text-secondary);">
+      See also: <a href="/privacy">Privacy Policy</a>
+    </p>
+  </div>
+</body>
+</html>
